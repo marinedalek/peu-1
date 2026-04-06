@@ -4,7 +4,7 @@
 
 You need local copies of:
 
-- [VST3 SDK](https://steinbergmedia.github.io/vst3_dev_portal/pages/What+is+the+VST+3+SDK/Wrappers/AUv2+Wrapper.html)
+- [VST3 SDK](https://steinbergmedia.github.io/vst3_dev_portal/pages/Getting+Started/Links.html#getting-vst-sdk)
 - [AudioUnitSDK](https://github.com/apple/AudioUnitSDK)
 - [CoreAudioUtilityClasses](https://developer.apple.com/library/archive/samplecode/CoreAudioUtilityClasses/CoreAudioUtilityClasses.zip)
 
@@ -41,30 +41,28 @@ The files in the repo are already correct, but for future reference, the importa
 ### `resource/au-info.plist`
 
 - display name: `PEU/1`
-- manufacturer code: `MDLK`
+- manufacturer code: `MRIN`
 - subtype: `peu1`
 - type: `aufx`
 
-Set the version metadata:
+Set the version metadata (e.g):
 
 ```xml
 <key>AudioUnit Version</key>
-<string>00010000</string>
+<string>00000101</string>
 ```
 
 and:
 
 ```xml
 <key>version</key>
-<integer>65536</integer>
+<integer>257</integer>
 ```
+
+Note that the first value is the version number in hex in the format `aaaabbcc`. `aaaa` is the major version, `bb` minor version, and `cc` patch version. The build number from the VST3 version number is omitted. The second value is the first value rendered as an integer.
 
 If Logic ignores metadata changes, it likely means you have to update the AU version metadata.
 
 ### `source/version.h`
 
 Keep the real plugin filename filesystem-safe: `PEU-1.vst3`. Display strings can still say `PEU/1`.
-
-### `source/Peu1processor.cpp`
-
-Do not treat `data.inputs[1]` as the right channel, use `data.inputs[0]` plus `numChannels`.

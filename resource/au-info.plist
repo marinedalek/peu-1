@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>AudioUnit Version</key>
-	<string>00010000</string>
+	<string>00000101</string>
 
 	<key>AudioComponents</key>
 	<array>
@@ -29,7 +29,7 @@
 			<key>description</key>
 			<string>PEU/1</string>
 			<key>manufacturer</key>
-			<string>MDLK</string>
+			<string>MRIN</string>
 			<key>name</key>
 			<string>Marinedalek: PEU/1</string>
 			<key>subtype</key>
@@ -37,7 +37,7 @@
 			<key>type</key>
 			<string>aufx</string>
 			<key>version</key>
-			<integer>65536</integer>
+			<integer>257</integer>
 		</dict>
 	</array>
 
