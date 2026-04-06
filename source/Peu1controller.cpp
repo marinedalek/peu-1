@@ -47,9 +47,6 @@ tresult PLUGIN_API Peu1Controller::initialize (FUnknown* context)
 	bassCutParam->appendString(STR16("1760"));
 	parameters.addParameter(bassCutParam);
 
-	parameters.addParameter(STR16("Gain"), STR16("dB"), 0, .5, 
-		Vst::ParameterInfo::kCanAutomate, Peu1Params::kParamGainId, 0);
-	
 	parameters.addParameter(STR16("Bypass"), nullptr, 1, 0,
 		ParameterInfo::kCanAutomate | ParameterInfo::kIsBypass, kParamBypassId);
 
@@ -73,14 +70,7 @@ tresult PLUGIN_API Peu1Controller::setComponentState (IBStream* state)
 		return kResultFalse;
 
 	IBStreamer streamer(state, kLittleEndian);
-	float savedParam1 = 0.f;
-	if (streamer.readFloat(savedParam1) == false)
-		return kResultFalse;
-
 	// sync with our parameter
-	if (auto param = parameters.getParameter(Peu1Params::kParamGainId))
-		param->setNormalized(savedParam1);
-	
 	float savedTopCutKnob = 0.f;
 	if (streamer.readFloat(savedTopCutKnob) == false)
 		return kResultFalse;

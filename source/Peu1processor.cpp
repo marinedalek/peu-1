@@ -94,10 +94,6 @@ tresult PLUGIN_API Peu1Processor::process (Vst::ProcessData& data)
 				int32 sampleOffset;
 				int32 numPoints = paramQueue->getPointCount();
 				switch (paramQueue->getParameterId()) {
-				case Peu1Params::kParamGainId:
-					if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) == kResultTrue)
-						mGain = value;
-					break;
 				case Peu1Params::kParamTopCutId:
 					if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) == kResultTrue) {
 						mTopCutKnob = value;
@@ -250,7 +246,6 @@ tresult PLUGIN_API Peu1Processor::process (Vst::ProcessData& data)
 		mOldBassCutActive = mBassCutActive;
 	}
 
-	float gain = mGain;
 	// for each channel (left and right)
 	for (int32 i = 0; i < numChannels; ++i) {
 		int32 samples = data.numSamples;
@@ -365,11 +360,6 @@ tresult PLUGIN_API Peu1Processor::setState (IBStream* state)
 		return kResultFalse;
 	// called when we load a preset, the model has to be reloaded
 	IBStreamer streamer (state, kLittleEndian);
-	float savedParam1 = 0.f;
-	if (streamer.readFloat(savedParam1) == false)
-		return kResultFalse;
-	mGain = savedParam1;
-
 	float savedTopCutKnob = 0.f;
 	if (streamer.readFloat(savedTopCutKnob) == false)
 		return kResultFalse;
@@ -392,11 +382,9 @@ tresult PLUGIN_API Peu1Processor::setState (IBStream* state)
 tresult PLUGIN_API Peu1Processor::getState (IBStream* state)
 {
 	// here we need to save the model
-	float toSaveParam1 = mGain;
 	float toSaveTopCutKnob = mTopCutKnob;
 	float toSaveBassCutKnob = mBassCutKnob;
 	IBStreamer streamer (state, kLittleEndian);
-	streamer.writeFloat(toSaveParam1);
 	streamer.writeFloat(toSaveTopCutKnob);
 	streamer.writeFloat(toSaveBassCutKnob);
 	streamer.writeBool(mBypass);

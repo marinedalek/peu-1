@@ -8,8 +8,7 @@
 #include "pluginterfaces/vst/vsttypes.h"
 
 enum Peu1Params : Steinberg::Vst::ParamID {
-	kParamGainId = 102,
-	kParamTopCutId,
+	kParamTopCutId = 102,
 	kParamBassCutId,
 	kParamBypassId,
 };

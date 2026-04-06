@@ -218,7 +218,6 @@ public:
 	//------------------------------------------------------------------------
 protected:
 	//---- Parameters ----
-	Steinberg::Vst::ParamValue mGain = 1.;
 	Steinberg::Vst::ParamValue mTopCutKnob = 0.;
 	Steinberg::Vst::ParamValue mBassCutKnob = 0.;
 	bool mBypass = false;
