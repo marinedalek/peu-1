@@ -134,19 +134,17 @@ tresult PLUGIN_API Peu1Processor::process (Vst::ProcessData& data)
 	// Here could check the silent flags
 	//---check if silence---------------
 	// normally we have to check each channel (simplification)
-	
-	if ((data.inputs[0].silenceFlags != 0)
-		&& (data.inputs[1].silenceFlags != 0)
-		&& lowPass12[0].isIdle()
-		&& lowPass12[1].isIdle()
-		&& lowPass6[0].isIdle()
-		&& lowPass6[1].isIdle()
-		&& highPass12[0].isIdle()
-		&& highPass12[1].isIdle()
-		&& highPass6[0].isIdle()
-		&& highPass6[1].isIdle()) {
-		// mark output silence too
-		data.outputs[0].silenceFlags = data.inputs[0].silenceFlags;
+
+    bool inputIsSilent = (data.inputs[0].silenceFlags != 0);
+    if (numChannels > 1)
+        inputIsSilent =
+            inputIsSilent && ((data.inputs[0].silenceFlags & (1 << 1)) != 0);
+
+    if (inputIsSilent && lowPass12[0].isIdle() &&
+        (numChannels < 2 || lowPass12[1].isIdle()) && lowPass6[0].isIdle() &&
+        (numChannels < 2 || lowPass6[1].isIdle()) && highPass12[0].isIdle() &&
+        (numChannels < 2 || highPass12[1].isIdle()) && highPass6[0].isIdle() &&
+        (numChannels < 2 || highPass6[1].isIdle())) {
 
 		// the plug-in has to be sure that if it sets the flags silence that the output buffers are clear
 		for (int32 i = 0; i < numChannels; i++) {
